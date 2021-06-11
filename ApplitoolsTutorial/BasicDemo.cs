@@ -21,8 +21,13 @@ namespace ApplitoolsTutorial
         [SetUp]
         public void BeforeEach()
         {
+            var CI = Environment.GetEnvironmentVariable("CI");
+            var options = new ChromeOptions();
+            if(CI != null) {
+                options.AddArguments("headless");
+            } 
             // Use Chrome browser
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(options);
 
             //Initialize the Runner for your test.
             runner = new ClassicRunner();
@@ -86,7 +91,7 @@ namespace ApplitoolsTutorial
 
 
             // You can get your api key from the Applitools dashboard
-            config.SetApiKey("APPLITOOLS_API_KEY");
+            config.SetApiKey(Environment.GetEnvironmentVariable("APPLITOOLS_API_KEY"));
 
             // set new batch
             config.SetBatch(new BatchInfo("Demo batch"));
